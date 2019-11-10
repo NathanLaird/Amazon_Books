@@ -75,7 +75,7 @@ def df_prep(df,cutoff=.5,margin=.05):
 	Corpus['help_votes'] = df['9']
 	Corpus['stars'] = df['7']
 	return Corpus
-
+"""
 def vectorize_df(Train_X, Test_X, Train_Y, Test_Y,method='TF_IDF'):
 	Encoder = LabelEncoder()
 	Train_Y = Encoder.fit_transform(Train_Y)
@@ -89,6 +89,22 @@ def vectorize_df(Train_X, Test_X, Train_Y, Test_Y,method='TF_IDF'):
 		return Train_X_Tfidf, Test_X_Tfidf, Train_Y, Test_Y
 	if method == 'W2V':
 		print(1)
+"""
+class NLP_Vectorizer:
+	def __init__(self,method='TF_IDF',params={'max_features':1000,'ngram_range':(1,1)}):
+		if method =='TF_IDF':
+			self.vectorizer = TfidfVectorizer(max_features=params['max_features'],ngram_range=params['ngram_range'])
+	def encode_Y(self,Y):
+		Encoder = LabelEncoder()
+		return Encoder.fit_transform(Y)
+		
+
+	def fit(self,Train_X):
+		self.vectorizer.fit(Train_X)
+
+
+	def transform(self,X):
+		return self.vectorizer.transform(X)
 
 
 
