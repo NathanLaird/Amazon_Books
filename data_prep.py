@@ -15,7 +15,7 @@ from sklearn.model_selection import GridSearchCV
 nltk.download('wordnet')
 from sklearn.svm import SVC 
 
-def df_prep(df,cutoff=.5):
+def df_prep(df,cutoff=.5,margin=.05):
 	
 	helpful_percentage = []
 	for pos, total in zip(df['8'],df['9']):
@@ -24,6 +24,8 @@ def df_prep(df,cutoff=.5):
 	    else:
 	        helpful_percentage.append(0)
 	df['15'] = helpful_percentage
+	margin_mask = [x>(cutoff+margin) or x<(cutoff-margin) for x in helpful_percentage]
+	df = df[margin_mask]
 	#create target variable base on helpfulness
 	Corpus = pd.DataFrame()
 	Corpus['text'] = df['13']
@@ -69,19 +71,25 @@ def df_prep(df,cutoff=.5):
 	    lst.append(str(Final_words))
 	    
 	Corpus['text_final'] = lst
+	Corpus['help_score'] = df['15']
+	Corpus['help_votes'] = df['9']
+	Corpus['stars'] = df['7']
 	return Corpus
 
 def vectorize_df(Train_X, Test_X, Train_Y, Test_Y,method='TF_IDF'):
 	Encoder = LabelEncoder()
 	Train_Y = Encoder.fit_transform(Train_Y)
 	Test_Y = Encoder.fit_transform(Test_Y)
+	if method =='TF_IDF':
+		Tfidf_vect = TfidfVectorizer(max_features=100000,ngram_range=(1, 5))
+		Tfidf_vect.fit(Train_X)
+		Train_X_Tfidf = Tfidf_vect.transform(Train_X)
+		Test_X_Tfidf = Tfidf_vect.transform(Test_X)
 
-	Tfidf_vect = TfidfVectorizer(max_features=10000)
-	Tfidf_vect.fit(Train_X)
-	Train_X_Tfidf = Tfidf_vect.transform(Train_X)
-	Test_X_Tfidf = Tfidf_vect.transform(Test_X)
+		return Train_X_Tfidf, Test_X_Tfidf, Train_Y, Test_Y
+	if method == 'W2V':
+		print(1)
 
-	return Train_X_Tfidf, Test_X_Tfidf, Train_Y, Test_Y
 
 
 
