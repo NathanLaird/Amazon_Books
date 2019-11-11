@@ -11,6 +11,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn import model_selection, naive_bayes, svm
 from sklearn.metrics import accuracy_score
 import nltk
+nltk.download('popular')
 from sklearn.model_selection import GridSearchCV
 nltk.download('wordnet')
 from sklearn.svm import SVC 
@@ -74,7 +75,9 @@ def df_prep(df,cutoff=.5,margin=.05):
 	Corpus['help_score'] = df['15']
 	Corpus['help_votes'] = df['9']
 	Corpus['stars'] = df['7']
+    Corpus['']
 	return Corpus
+
 """
 def vectorize_df(Train_X, Test_X, Train_Y, Test_Y,method='TF_IDF'):
 	Encoder = LabelEncoder()
