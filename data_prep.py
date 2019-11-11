@@ -75,7 +75,6 @@ def df_prep(df,cutoff=.5,margin=.05):
 	Corpus['help_score'] = df['15']
 	Corpus['help_votes'] = df['9']
 	Corpus['stars'] = df['7']
-    Corpus['']
 	return Corpus
 
 """
