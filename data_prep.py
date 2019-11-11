@@ -38,7 +38,7 @@ def df_prep(df,cutoff=.5,margin=.05):
 	Corpus['text'] = df['13']
 	lst = []
 	for x in df['15']:
-	    if x>=cutoff:
+	    if x>cutoff:
 	        lst.append('good')
 	    else:
 	        lst.append('bad')

@@ -18,6 +18,11 @@ nltk.download('wordnet')
 from sklearn.svm import SVC
 from xgboost import XGBClassifier
 
+import tensorflow as tf
+import tensorflow_hub as hub
+import pickle
+
+
 class NLP_model:
 	def __init__(self,model_name='SVC',params={}):
 		self.model_name = model_name
@@ -34,7 +39,8 @@ class NLP_model:
 			self.model = LogisticRegression()
 		if model_name == 'XGBoost':
 			self.model = XGBClassifier(max_depth=10, n_estimators=1000, learning_rate=0.01)
-
+		if model_name =='Bert':
+			print('Berts')
 
 
 	def fit(self,Train_X,Train_Y):
