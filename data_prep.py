@@ -16,6 +16,12 @@ from sklearn.model_selection import GridSearchCV
 nltk.download('wordnet')
 from sklearn.svm import SVC 
 
+tag_map = defaultdict(lambda : wn.NOUN)
+tag_map['J'] = wn.ADJ
+tag_map['V'] = wn.VERB
+tag_map['R'] = wn.ADV
+
+
 def df_prep(df,cutoff=.5,margin=.05):
 	
 	helpful_percentage = []
@@ -69,14 +75,29 @@ def df_prep(df,cutoff=.5,margin=.05):
 	    # The final processed set of words for each iteration will be stored in 'text_final'
 	    
 	    #Corpus.loc[index,'text_final'] = str(Final_words)
-	    lst.append(str(Final_words))
-	    
+	    lst.append(" ".join(Final_words))
+	Corpus['text'] = df['13']
 	Corpus['text_final'] = lst
 	Corpus['help_score'] = df['15']
 	Corpus['help_votes'] = df['9']
 	Corpus['stars'] = df['7']
+
 	return Corpus
 
+
+
+
+def parse_line(line):
+	line = line.lower()
+	line_list = word_tokenize(line)
+	Final_words = []
+	word_Lemmatized = WordNetLemmatizer()
+	for word, tag in pos_tag(line_list):
+		# Below condition is to check for Stop words and consider only alphabets
+		if word not in stopwords.words('english') and word.isalpha():
+			word_Final = word_Lemmatized.lemmatize(word,tag_map[tag[0]])
+			Final_words.append(word_Final)
+	return " ".join(Final_words)
 """
 def vectorize_df(Train_X, Test_X, Train_Y, Test_Y,method='TF_IDF'):
 	Encoder = LabelEncoder()

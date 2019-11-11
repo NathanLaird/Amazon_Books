@@ -13,8 +13,10 @@ from sklearn.metrics import accuracy_score
 import nltk
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
 nltk.download('wordnet')
 from sklearn.svm import SVC
+from xgboost import XGBClassifier
 
 class NLP_model:
 	def __init__(self,model_name='SVC',params={}):
@@ -28,6 +30,10 @@ class NLP_model:
 			
 		if model_name =='RF':
 			self.model = RandomForestClassifier(n_estimators=params['n_estimators'])
+		if model_name == 'LR':
+			self.model = LogisticRegression()
+		if model_name == 'XGBoost':
+			self.model = XGBClassifier(max_depth=10, n_estimators=1000, learning_rate=0.01)
 
 
 
