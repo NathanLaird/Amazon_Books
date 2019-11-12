@@ -24,10 +24,10 @@ import pickle
 
 
 class NLP_model:
-	def __init__(self,model_name='SVC',params={}):
+	def __init__(self,model_name='SVC',params={'max_depth':4,'n_estimators':1500,'learning_rate':.01,'degree':6,'gamma':'auto','kernel':'linear','C':1.0}):
 		self.model_name = model_name
 		if model_name =='SVC':
-			self.model = svm.SVC(C=1.0, kernel='linear', degree=6, gamma='auto')
+			self.model = svm.SVC(C=params['C'], kernel=params['kernel'], degree=params['degree'], gamma=params['gamma'],probability=True)
 			
 			
 		if model_name =='Naive_Bayes':
@@ -38,7 +38,7 @@ class NLP_model:
 		if model_name == 'LR':
 			self.model = LogisticRegression()
 		if model_name == 'XGBoost':
-			self.model = XGBClassifier(max_depth=10, n_estimators=1000, learning_rate=0.01)
+			self.model = XGBClassifier(max_depth=params['max_depth'], n_estimators=params['n_estimators'], learning_rate=params['learning_rate'])
 		if model_name =='Bert':
 			print('Berts')
 

@@ -15,6 +15,8 @@ nltk.download('popular')
 from sklearn.model_selection import GridSearchCV
 nltk.download('wordnet')
 from sklearn.svm import SVC 
+from sklearn.feature_extraction.text import CountVectorizer
+
 
 tag_map = defaultdict(lambda : wn.NOUN)
 tag_map['J'] = wn.ADJ
@@ -117,6 +119,9 @@ class NLP_Vectorizer:
 	def __init__(self,method='TF_IDF',params={'max_features':1000,'ngram_range':(1,1)}):
 		if method =='TF_IDF':
 			self.vectorizer = TfidfVectorizer(max_features=params['max_features'],ngram_range=params['ngram_range'])
+		if method =='CV':
+			self.vectorizer = CountVectorizer(max_features=params['max_features'],ngram_range=params['ngram_range'])
+
 	def encode_Y(self,Y):
 		Encoder = LabelEncoder()
 		return Encoder.fit_transform(Y)
