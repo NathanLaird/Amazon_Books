@@ -1,6 +1,6 @@
 
 # Amazon User Reviews
-**Using NLP to determine a reviews helpfulness**
+**Using NLP to determine a review's helpfulness**
 <br>Nathan Laird
 <br>
 [Linkedin](http://www.linkedin.com/in/nathn-laird) | [Github](https://github.com/nathanlaird)
